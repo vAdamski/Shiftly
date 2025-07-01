@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shiftly.Persistence", "Shif
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shiftly.Infrastructure", "Shiftly.Infrastructure\Shiftly.Infrastructure.csproj", "{9C7425EF-DB87-4390-A6F1-C633293D33E9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shiftly.Domain", "Shiftly.Domain\Shiftly.Domain.csproj", "{424C61BB-CA52-4A2C-A950-18A7FD4450F0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,5 +37,9 @@ Global
 		{9C7425EF-DB87-4390-A6F1-C633293D33E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C7425EF-DB87-4390-A6F1-C633293D33E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C7425EF-DB87-4390-A6F1-C633293D33E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{424C61BB-CA52-4A2C-A950-18A7FD4450F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{424C61BB-CA52-4A2C-A950-18A7FD4450F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{424C61BB-CA52-4A2C-A950-18A7FD4450F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{424C61BB-CA52-4A2C-A950-18A7FD4450F0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

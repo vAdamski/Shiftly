@@ -1,0 +1,6 @@
+@Shiftly.Api_HostAddress = http://localhost:5198
+
+GET {{Shiftly.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,7 @@
+﻿services:
+  shiftly.api:
+    image: shiftly.api
+    build:
+      context: .
+      dockerfile: Shiftly.Api/Dockerfile
+

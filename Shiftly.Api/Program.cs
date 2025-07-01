@@ -1,14 +1,25 @@
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Shiftly.Api.Services;
+using Shiftly.Application;
+using Shiftly.Application.Common.Interfaces.Api;
+using Shiftly.Infrastructure;
+using Shiftly.Persistence;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+builder.Services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.TryAddScoped(typeof(ICurrentUserService), typeof(CurrentUserService));
+
+builder.Services.AddApplication();
+builder.Services.AddPersistence(builder.Configuration);
+builder.Services.AddInfrastructure();
 
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();

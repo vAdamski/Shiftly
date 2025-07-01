@@ -9,14 +9,26 @@
 
     <ItemGroup>
         <PackageReference Include="MediatR" Version="12.5.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.6" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+        <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+        <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.1" />
     </ItemGroup>
 
     <ItemGroup>
       <Content Include="..\.dockerignore">
         <Link>.dockerignore</Link>
       </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Shiftly.Application\Shiftly.Application.csproj" />
+      <ProjectReference Include="..\Shiftly.Infrastructure\Shiftly.Infrastructure.csproj" />
+      <ProjectReference Include="..\Shiftly.Persistence\Shiftly.Persistence.csproj" />
     </ItemGroup>
 
 </Project>

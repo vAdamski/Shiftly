@@ -27,5 +27,10 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.PasswordHash)
             .IsRequired()
             .HasMaxLength(256);
+        
+        builder.HasMany(x => x.Events)
+            .WithOne()
+            .HasForeignKey(e => e.StreamId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

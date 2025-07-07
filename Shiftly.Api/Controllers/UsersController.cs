@@ -9,6 +9,7 @@ using Shiftly.Application.Actions.UsersActions.Queries.LoginUserWithRefreshToken
 
 namespace Shiftly.Api.Controllers;
 
+[Route("api/users")]
 public class UsersController(ISender sender) : BaseApiController(sender)
 {
     [HttpGet]

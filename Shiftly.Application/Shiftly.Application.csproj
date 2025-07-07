@@ -21,6 +21,7 @@
 
     <ItemGroup>
       <Folder Include="Actions\" />
+      <Folder Include="Actions\UsersActions\Commands\ChangeUserPassword\" />
     </ItemGroup>
 
 </Project>

@@ -1,4 +1,4 @@
-namespace Shiftly.Application.Common.Interfaces.Application;
+namespace Shiftly.Application.Common.Interfaces.Application.Services;
 
 public interface IPasswordHasher
 {

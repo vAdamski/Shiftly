@@ -1,9 +1,11 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Shiftly.Domain.Common;
 
 namespace Shiftly.Api.Controllers;
 
+[Authorize]
 [ApiController]
 public class BaseApiController  : ControllerBase
 {

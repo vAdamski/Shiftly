@@ -3,6 +3,11 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Shiftly.Application.Common.Behaviours;
+using Shiftly.Application.Common.Interfaces.Application;
+using Shiftly.Application.Common.Interfaces.Application.Providers;
+using Shiftly.Application.Common.Interfaces.Application.Services;
+using Shiftly.Application.Providers;
+using Shiftly.Application.Services;
 
 namespace Shiftly.Application;
 
@@ -14,6 +19,9 @@ public static class DependencyInjection
         
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly(), includeInternalTypes: true);
         services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationPipelineBehavior<,>));
+        
+        services.AddTransient<IPasswordHasher, PasswordHasher>();
+        services.AddTransient<ITokenProvider, TokenProvider>();
         
         return services;
     }

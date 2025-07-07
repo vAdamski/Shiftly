@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Shiftly.Application.Common.Interfaces.Persistence;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
+using Shiftly.Domain.Common;
 using Shiftly.Domain.Entities;
 
 namespace Shiftly.Persistence.Repositories;
@@ -18,8 +19,37 @@ public class UserRepository(IAppDbContext ctx) : IUserRepository
 		await ctx.SaveChangesAsync(cancellationToken);
 	}
 
-	public Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
+	public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
-		return ctx.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+		return await ctx.Users
+			.AsNoTracking()
+			.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+	}
+
+	public async Task AppendEventAsync(EventBase @event, CancellationToken cancellationToken)
+	{
+		if (@event == null)
+		{
+			throw new ArgumentNullException(nameof(@event), "Event cannot be null.");
+		}
+
+		var user = await ctx.Users
+			.Include(x => x.Events)
+			.FirstOrDefaultAsync(x => x.Id == @event.StreamId, cancellationToken);
+		
+		if (user == null)
+		{
+			user = new();
+			
+			user.Apply(@event);
+			ctx.Users.Add(user);
+		}
+		else
+		{
+			user.Apply(@event);
+			ctx.Users.Update(user);
+		}
+		
+		await ctx.SaveChangesAsync(cancellationToken);
 	}
 }

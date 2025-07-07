@@ -1,5 +1,6 @@
 using System.Security.Cryptography;
 using Shiftly.Application.Common.Interfaces.Application;
+using Shiftly.Application.Common.Interfaces.Application.Services;
 
 namespace Shiftly.Application.Services;
 

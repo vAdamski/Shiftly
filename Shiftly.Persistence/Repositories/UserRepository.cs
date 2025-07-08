@@ -8,21 +8,36 @@ namespace Shiftly.Persistence.Repositories;
 
 public class UserRepository(IAppDbContext ctx) : IUserRepository
 {
+	public async Task<bool> IsExistsAsync(Guid id, CancellationToken cancellationToken = default)
+	{
+		return await ctx.Users
+			.AsNoTracking()
+			.AnyAsync(x => x.Id == id, cancellationToken);
+	}
+
+	public async Task<bool> IsExistsAsync(string email, CancellationToken cancellationToken = default)
+	{
+		return await ctx.Users
+			.AsNoTracking()
+			.AnyAsync(x => x.Email == email, cancellationToken);
+	}
+
 	public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
 	{
 		return await ctx.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email, cancellationToken);
-	}
-
-	public async Task AddAsync(User user, CancellationToken cancellationToken = default)
-	{
-		await ctx.Users.AddAsync(user, cancellationToken);
-		await ctx.SaveChangesAsync(cancellationToken);
 	}
 
 	public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken)
 	{
 		return await ctx.Users
 			.AsNoTracking()
+			.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+	}
+
+	public Task<User?> GetUserWithEventsAsync(Guid id, CancellationToken cancellationToken)
+	{
+		return ctx.Users
+			.Include(x => x.Events)
 			.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
 	}
 

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shiftly.Application.Actions.UsersActions.Commands.ChangeUserPassword;
 using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
 using Shiftly.Application.Actions.UsersActions.Queries.GetCurrentUserInfo;
 using Shiftly.Application.Actions.UsersActions.Queries.GetUserInfo;
@@ -55,5 +56,14 @@ public class UsersController(ISender sender) : BaseApiController(sender)
         var result = await Sender.Send(query);
 
         return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
+    }
+    
+    [AllowAnonymous]
+    [HttpPost("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangeUserPasswordCommand command)
+    {
+        var result = await Sender.Send(command);
+
+        return result.IsSuccess ? Ok() : HandleFailure(result);
     }
 }

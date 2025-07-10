@@ -6,8 +6,10 @@ using Shiftly.Application.Common.Behaviours;
 using Shiftly.Application.Common.Interfaces.Application;
 using Shiftly.Application.Common.Interfaces.Application.Providers;
 using Shiftly.Application.Common.Interfaces.Application.Services;
+using Shiftly.Application.Common.Interfaces.Application.Services.Emails;
 using Shiftly.Application.Providers;
 using Shiftly.Application.Services;
+using Shiftly.Application.Services.Emails;
 
 namespace Shiftly.Application;
 
@@ -23,6 +25,9 @@ public static class DependencyInjection
         services.AddTransient<IPasswordHasher, PasswordHasher>();
         services.AddTransient<ITokenProvider, TokenProvider>();
         services.AddTransient<IEventPublisher, EventPublisher>();
+        
+        services.AddTransient<IEmailContextProvider, EmailContextProvider>();
+        services.AddTransient<IActivationEmailService, ActivationEmailService>();
         
         return services;
     }

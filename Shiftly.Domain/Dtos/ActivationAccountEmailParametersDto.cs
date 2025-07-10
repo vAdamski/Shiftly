@@ -4,7 +4,7 @@ public class ActivationAccountEmailParametersDto(
     string emailDestination,
     Guid userId,
     Guid activationToken,
-    string firstName) : EmailDestinationDto(emailDestination)
+    string firstName) : EmailBase(emailDestination)
 {
     public Guid UserId { get; private set; } = userId;
     public Guid ActivationToken { get; private set; } = activationToken;

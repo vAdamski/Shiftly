@@ -22,6 +22,7 @@ public static class DependencyInjection
         
         services.AddTransient<IPasswordHasher, PasswordHasher>();
         services.AddTransient<ITokenProvider, TokenProvider>();
+        services.AddTransient<IEventPublisher, EventPublisher>();
         
         return services;
     }

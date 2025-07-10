@@ -11,5 +11,13 @@
       - 3306:3306
     volumes:
       - mysql_data:/var/lib/mysql
+        
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: shiftlyRabbitMQ
+    ports:
+      - 5672:5672
+      - 15672:15672
+  
 volumes:
   mysql_data:

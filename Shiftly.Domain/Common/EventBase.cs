@@ -8,4 +8,9 @@ public abstract class EventBase
     public abstract Guid StreamId { get; }
     [JsonIgnore]
     public abstract int Version { get; }
+    
+    public string Serialize()
+    {
+        return JsonConvert.SerializeObject(this);
+    }
 }

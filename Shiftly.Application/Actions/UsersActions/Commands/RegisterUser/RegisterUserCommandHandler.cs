@@ -7,28 +7,38 @@ using Shiftly.Domain.Events.User;
 
 namespace Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
 
-public class RegisterUserCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
-    : ICommandHandler<RegisterUserCommand>
+public class RegisterUserCommandHandler(
+    IUserRepository userRepository,
+    IPasswordHasher passwordHasher,
+    IEventPublisher eventPublisher)
+    : ICommandHandler<RegisterUserCommand, Guid>
 {
-    public async Task<Result> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Guid>> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await userRepository.GetByEmailAsync(request.Email, cancellationToken);
-
-        if (user is not null)
+        var isUserExist = await userRepository.GetByEmailAsync(request.Email, cancellationToken);
+    
+        if (isUserExist is not null)
         {
-            return Result.Failure(DomainErrors.User.EmailAlreadyExists(request.Email));
+            return Result.Failure<Guid>(DomainErrors.User.EmailAlreadyExists(request.Email));
         }
-
+    
         var passwordHash = passwordHasher.Hash(request.Password);
-
+    
         var userCreated = new UserCreated(
             request.FirstName,
             request.LastName,
             request.Email,
             passwordHash);
-
+    
         await userRepository.AppendEventAsync(userCreated, cancellationToken);
+    
+        var userRegistered = new UserRegistered(
+            userCreated.UserId,
+            userCreated.FirstName,
+            userCreated.Email);
+        
+        await eventPublisher.PublishAsync(userRegistered, cancellationToken);
 
-        return Result.Success();
+        return userCreated.UserId;
     }
 }

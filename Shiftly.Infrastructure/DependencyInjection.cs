@@ -1,3 +1,4 @@
+using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services.EmailSender;
@@ -15,6 +16,18 @@ public static class DependencyInjection
         
         services.AddSingleton<IEmailSenderConfiguration, EmailSenderConfiguration>();
         services.AddTransient<IEmailSenderService, EmailSenderService>();
+        
+        services.AddMassTransit(x =>
+        {
+            x.UsingRabbitMq((context, cfg) =>
+            {
+                cfg.Host("localhost", "/", h =>
+                {
+                    h.Username("guest");
+                    h.Password("guest");
+                });
+            });
+        });
 
         return services;
     }

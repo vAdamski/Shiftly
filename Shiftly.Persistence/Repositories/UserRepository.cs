@@ -1,5 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Shiftly.Application.Common.Interfaces.Persistence;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Domain.Common;
 using Shiftly.Domain.Entities;

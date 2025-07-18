@@ -1,9 +1,7 @@
 using JasperFx;
 using Marten;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Shiftly.Application.Common.Interfaces.Persistence;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Persistence.Repositories;
 

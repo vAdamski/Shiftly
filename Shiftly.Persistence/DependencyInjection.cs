@@ -1,3 +1,5 @@
+using JasperFx;
+using Marten;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,15 +13,20 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING") ??
-                               configuration.GetConnectionString("DefaultConnection");
-
-        services.AddDbContext<AppDbContext>(options =>
-            options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
-
-        services.AddScoped<IAppDbContext, AppDbContext>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+
+        services.AddMarten(options =>
+        {
+            options.Connection(configuration.GetConnectionString("PostgresConnection"));
+            
+            options.UseSystemTextJsonForSerialization();
+            
+            if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+            {
+                options.AutoCreateSchemaObjects = AutoCreate.All;
+            }
+        });
         
         return services;
     }

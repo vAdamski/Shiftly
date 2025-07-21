@@ -12,19 +12,6 @@
     volumes:
       - postgres_data:/var/lib/postgresql/data
   
-  mysql:
-    image: mysql:latest
-    container_name: shiftlyDbMySql
-    environment:
-      - MYSQL_ROOT_PASSWORD=Pass123$
-      - MYSQL_DATABASE=ShiftlyDatabase
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=Pass123$
-    ports:
-      - 3306:3306
-    volumes:
-      - mysql_data:/var/lib/mysql
-  
   rabbitmq:
     image: rabbitmq:4-management
     container_name: shiftlyRabbitMQ

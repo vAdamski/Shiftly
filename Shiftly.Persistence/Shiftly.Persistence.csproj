@@ -13,6 +13,9 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="9.0.6" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="9.0.6" />
       <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.6" />
+      <PackageReference Include="Rebus.PostgreSql" Version="9.1.1" />
+      <PackageReference Include="Rebus.RabbitMq" Version="10.0.1" />
+      <PackageReference Include="Rebus.ServiceProvider" Version="10.3.0" />
     </ItemGroup>
 
     <ItemGroup>

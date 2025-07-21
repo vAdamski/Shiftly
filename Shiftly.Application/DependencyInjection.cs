@@ -24,7 +24,7 @@ public static class DependencyInjection
         
         services.AddTransient<IPasswordHasher, PasswordHasher>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IEventPublisher, EventPublisher>();
+        services.AddTransient<IEventSender, EventSender>();
         
         services.AddTransient<IEmailContextProvider, EmailContextProvider>();
         services.AddTransient<IActivationEmailService, ActivationEmailService>();

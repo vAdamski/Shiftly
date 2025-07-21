@@ -12,7 +12,7 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services)
     {
         services.AddTransient<IDateTime, DateTimeService>();
-        services.AddTransient<IMessagePublisher, RabbitMqMessagePublisher>();
+        services.AddTransient<IMessagePublisher, MassTransitMessagePublisher>();
         
         services.AddSingleton<IEmailSenderConfiguration, EmailSenderConfiguration>();
         services.AddTransient<IEmailSenderService, EmailSenderService>();

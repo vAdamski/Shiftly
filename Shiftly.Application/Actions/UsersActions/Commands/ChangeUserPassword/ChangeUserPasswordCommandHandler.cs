@@ -27,13 +27,12 @@ public class ChangeUserPasswordCommandHandler(IUserRepository userRepository, IP
         }
 
         var newPasswordHash = passwordHasher.Hash(request.NewPassword);
-        
-        UserPasswordChanged userPasswordChangedEvent = new(
-            user.Id,
-            newPasswordHash
-        );
-        
-        await userRepository.AppendEventAsync(userPasswordChangedEvent, cancellationToken);
+
+        UserPasswordChanged userPasswordChangedEvent = new UserPasswordChanged()
+        {
+            UserId = user.Id,
+            PasswordHash = newPasswordHash
+        };
 
         return user.Id;
     }

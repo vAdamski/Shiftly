@@ -2,6 +2,7 @@ using Marten;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Domain.Common;
 using Shiftly.Domain.Entities;
+using Shiftly.Domain.Events.Common;
 using Shiftly.Domain.Events.User;
 
 namespace Shiftly.Persistence.Repositories;
@@ -36,11 +37,11 @@ public class UserRepository(IQuerySession querySession, IDocumentStore documentS
             .SingleOrDefaultAsync(cancellationToken);
     }
 
-    public async Task AddUserEventAsync(IUserEvent userEvent, CancellationToken cancellationToken = default)
+    public async Task AddUserEventAsync(Event @event, CancellationToken cancellationToken = default)
     {
         await using var session = documentStore.LightweightSession();
 
-        session.Events.StartStream<User>(userEvent.UserId, userEvent);
+        session.Events.StartStream<User>(@event.StreamId, @event);
 
         await session.SaveChangesAsync(cancellationToken);
     }

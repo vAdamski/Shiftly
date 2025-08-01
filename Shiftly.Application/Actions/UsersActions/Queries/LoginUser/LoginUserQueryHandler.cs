@@ -26,6 +26,9 @@ public class LoginUserQueryHandler(
 
 		if (!isPasswordValid)
 			return Result.Failure<LoginUserResponse>(DomainErrors.User.InvalidPassword);
+		
+		if (!user.IsActive)
+			return Result.Failure<LoginUserResponse>(DomainErrors.User.UserNotActivated);
 
 		var token = tokenProvider.CreateJwtToken(user);
 		var refreshToken = tokenProvider.CreateRefreshToken(user);

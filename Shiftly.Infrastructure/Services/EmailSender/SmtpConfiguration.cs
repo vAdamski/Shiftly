@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services.EmailSender;
+using Shiftly.Application.Helpers;
 using Shiftly.Domain.Common;
 
 namespace Shiftly.Infrastructure.Services.EmailSender;
@@ -19,8 +20,11 @@ public class SmtpConfiguration : ISmtpConfiguration
         SmtpPort = int.Parse(configuration["EmailSender:SmtpPort"]);
         Username = configuration["EmailSender:Username"];
         Password = configuration["EmailSender:Password"];
-        
-        Validate();
+
+        if (!EnvironmentExtension.IsDevelopment())
+        {
+            Validate();
+        }
     }
     
     public EmailConfiguration GetEmailSenderConfiguration()

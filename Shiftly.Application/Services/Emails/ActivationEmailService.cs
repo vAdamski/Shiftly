@@ -6,7 +6,7 @@ namespace Shiftly.Application.Services.Emails;
 
 public class ActivationEmailService(IConfiguration config) : IActivationEmailService
 {
-    private readonly string _frontendBaseUrl = config.GetValue<string>("FrontendBaseUrl")
+    private readonly string _frontendBaseUrl = config.GetValue<string>("ApplicationSettings:FrontendBaseUrl")
                                                ?? throw new ArgumentNullException("FrontendBaseUrl is not configured.");
 
     public string GenerateActivationEmailBody(ActivationAccountEmailParametersDto dto)

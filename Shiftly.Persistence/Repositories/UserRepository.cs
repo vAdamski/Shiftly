@@ -37,11 +37,18 @@ public class UserRepository(IQuerySession querySession, IDocumentStore documentS
             .SingleOrDefaultAsync(cancellationToken);
     }
 
-    public async Task AddUserEventAsync(Event @event, CancellationToken cancellationToken = default)
+    public async Task AddUserEventAsync(UserEvent @event, CancellationToken cancellationToken = default)
     {
         await using var session = documentStore.LightweightSession();
-
-        session.Events.StartStream<User>(@event.StreamId, @event);
+        
+        if (!await IsExistsAsync(@event.StreamId, cancellationToken))
+        {
+            session.Events.StartStream<User>(@event.StreamId, @event);
+        }
+        else
+        {
+            session.Events.Append(@event.StreamId, @event);
+        }
 
         await session.SaveChangesAsync(cancellationToken);
     }

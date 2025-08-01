@@ -5,9 +5,9 @@ using Shiftly.Domain.Common;
 
 namespace Shiftly.Infrastructure.Services.EmailSender;
 
-public class EmailSenderService(IEmailSenderConfiguration emailSenderConfiguration) : IEmailSenderService
+public class SmtpService(ISmtpConfiguration smtpConfiguration) : ISmtpService
 {
-    private readonly EmailConfiguration _emailConfiguration = emailSenderConfiguration.GetEmailSenderConfiguration();
+    private readonly EmailConfiguration _emailConfiguration = smtpConfiguration.GetEmailSenderConfiguration();
 
     public async Task SendMail(EmailMessage message)
     {

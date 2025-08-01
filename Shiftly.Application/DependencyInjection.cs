@@ -2,6 +2,7 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
 using Shiftly.Application.Common.Behaviours;
 using Shiftly.Application.Common.Interfaces.Application;
 using Shiftly.Application.Common.Interfaces.Application.Providers;
@@ -24,7 +25,6 @@ public static class DependencyInjection
         
         services.AddTransient<IPasswordHasher, PasswordHasher>();
         services.AddTransient<ITokenProvider, TokenProvider>();
-        services.AddTransient<IEventSender, EventSender>();
         
         services.AddTransient<IEmailContextProvider, EmailContextProvider>();
         services.AddTransient<IActivationEmailService, ActivationEmailService>();

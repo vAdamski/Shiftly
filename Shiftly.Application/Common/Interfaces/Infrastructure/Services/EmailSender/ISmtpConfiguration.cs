@@ -2,7 +2,7 @@
 
 namespace Shiftly.Application.Common.Interfaces.Infrastructure.Services.EmailSender;
 
-public interface IEmailSenderService
+public interface ISmtpConfiguration
 {
-    Task SendMail(EmailMessage message);
+    EmailConfiguration GetEmailSenderConfiguration();
 }

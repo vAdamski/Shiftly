@@ -4,7 +4,7 @@ using Shiftly.Domain.Common;
 
 namespace Shiftly.Infrastructure.Services.EmailSender;
 
-public class EmailSenderConfiguration : IEmailSenderConfiguration
+public class SmtpConfiguration : ISmtpConfiguration
 {
     public string From { get; private set; }
     public string SmtpServer { get; private set; }
@@ -12,7 +12,7 @@ public class EmailSenderConfiguration : IEmailSenderConfiguration
     public string Username { get; private set; }
     public string Password { get; private set; }
 
-    public EmailSenderConfiguration(IConfiguration configuration)
+    public SmtpConfiguration(IConfiguration configuration)
     {
         From = configuration["EmailSender:From"];
         SmtpServer = configuration["EmailSender:SmtpServer"];

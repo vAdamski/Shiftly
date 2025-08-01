@@ -10,5 +10,5 @@ public interface IUserRepository
 	Task<bool> IsExistsAsync(string email, CancellationToken cancellationToken = default);
 	Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default);
 	Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-	Task AddUserEventAsync(Event @event, CancellationToken cancellationToken = default);
+	Task AddUserEventAsync(UserEvent @event, CancellationToken cancellationToken = default);
 }

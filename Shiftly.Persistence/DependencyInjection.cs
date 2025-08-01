@@ -1,11 +1,13 @@
 
 using JasperFx;
+using JasperFx.Events;
 using JasperFx.Events.Projections;
 using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
+using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Domain.Projections;
 using Shiftly.Persistence.Repositories;
@@ -41,11 +43,13 @@ public static class DependencyInjection
     {
         var postgresConnection = configuration.GetConnectionString(PostgresConnectionKey) 
             ?? throw new InvalidOperationException($"Connection string '{PostgresConnectionKey}' not found.");
-
+        
         services.AddMarten(options =>
         {
             options.Connection(postgresConnection);
             options.UseSystemTextJsonForSerialization();
+            options.Events.StreamIdentity = StreamIdentity.AsGuid;
+            
             options.Projections.Add<UserProjection>(ProjectionLifecycle.Inline);
 
             if (IsRunningInDevelopment())

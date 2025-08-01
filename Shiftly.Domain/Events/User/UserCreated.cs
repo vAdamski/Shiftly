@@ -1,8 +1,6 @@
-using Shiftly.Domain.Events.Common;
-
 namespace Shiftly.Domain.Events.User;
 
-public class UserCreated : Event
+public class UserCreated : UserEvent
 {
     public Guid UserId { get; set; } = Guid.NewGuid();
     public string FirstName { get; set; } = string.Empty;

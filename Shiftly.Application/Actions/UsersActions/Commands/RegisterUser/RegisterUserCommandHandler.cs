@@ -40,6 +40,7 @@ public class RegisterUserCommandHandler(
         {
             UserId = userCreated.UserId,
             Email = userCreated.Email,
+            FirstName = userCreated.FirstName
         }, cancellationToken);
 
         return userCreated.UserId;

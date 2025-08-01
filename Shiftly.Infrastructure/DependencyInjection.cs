@@ -1,7 +1,6 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
-using Shiftly.Application.Common.Interfaces.Application.Services.Emails;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services.EmailSender;
 using Shiftly.Infrastructure.Services;
@@ -18,7 +17,7 @@ public static class DependencyInjection
 
         services.AddSingleton<ISmtpConfiguration, SmtpConfiguration>();
         services.AddTransient<ISmtpService, SmtpService>();
-        services.AddTransient<IEmailSenderService, EmailSenderSender>();
+        services.AddTransient<IEmailSender, EmailSender>();
 
         services.AddMassTransit(x =>
         {

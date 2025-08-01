@@ -2,6 +2,7 @@
 using MimeKit;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services.EmailSender;
 using Shiftly.Domain.Common;
+using Shiftly.Domain.Dtos.Emails;
 
 namespace Shiftly.Infrastructure.Services.EmailSender;
 
@@ -13,7 +14,7 @@ public class SmtpService(ISmtpConfiguration smtpConfiguration) : ISmtpService
     {
         MimeMessage email = new MimeMessage();
         email.From.Add(new MailboxAddress(_emailConfiguration.From, _emailConfiguration.From));
-        email.To.Add(new MailboxAddress(message.ToEmail, message.ToEmail));
+        email.To.Add(new MailboxAddress(message.To, message.To));
         email.Subject = message.Subject;
         email.Body = new TextPart(MimeKit.Text.TextFormat.Html)
         {

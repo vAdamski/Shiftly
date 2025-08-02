@@ -1,44 +1,47 @@
 using Shiftly.Application.Actions.UsersActions.Queries.Shared;
 using Shiftly.Application.Common.Abstraction.Messaging;
-using Shiftly.Application.Common.Interfaces.Application;
 using Shiftly.Application.Common.Interfaces.Application.Providers;
 using Shiftly.Application.Common.Interfaces.Application.Services;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Domain.Common;
 using Shiftly.Domain.Errors;
+using Shiftly.Domain.Events.User;
 
 namespace Shiftly.Application.Actions.UsersActions.Queries.LoginUser;
 
 public class LoginUserQueryHandler(
-	ITokenProvider tokenProvider,
-	IUserRepository userRepository,
-	IRefreshTokenRepository refreshTokenRepository,
-	IPasswordHasher passwordHasher) : IQueryHandler<LoginUserQuery, LoginUserResponse>
+    ITokenProvider tokenProvider,
+    IUserRepository userRepository,
+    IRefreshTokenRepository refreshTokenRepository,
+    IPasswordHasher passwordHasher) : IQueryHandler<LoginUserQuery, LoginUserResponse>
 {
-	public async Task<Result<LoginUserResponse>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
-	{
-		var user = await userRepository.GetByEmailAsync(request.Email, cancellationToken);
+    public async Task<Result<LoginUserResponse>> Handle(LoginUserQuery request, CancellationToken cancellationToken)
+    {
+        var user = await userRepository.GetByEmailAsync(request.Email, cancellationToken);
 
-		if (user is null)
-			return Result.Failure<LoginUserResponse>(DomainErrors.User.UserNotFound);
+        if (user is null)
+            return Result.Failure<LoginUserResponse>(DomainErrors.User.UserNotFound);
 
-		bool isPasswordValid = passwordHasher.Verify(request.Password, user.PasswordHash);
+        bool isPasswordValid = passwordHasher.Verify(request.Password, user.PasswordHash);
 
-		if (!isPasswordValid)
-			return Result.Failure<LoginUserResponse>(DomainErrors.User.InvalidPassword);
-		
-		if (!user.IsActive)
-			return Result.Failure<LoginUserResponse>(DomainErrors.User.UserNotActivated);
+        if (!isPasswordValid)
+            return Result.Failure<LoginUserResponse>(DomainErrors.User.InvalidPassword);
 
-		var token = tokenProvider.CreateJwtToken(user);
-		var refreshToken = tokenProvider.CreateRefreshToken(user);
-		
-		await refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+        if (!user.IsActive)
+            return Result.Failure<LoginUserResponse>(DomainErrors.User.UserNotActivated);
 
-		return new LoginUserResponse
-		{
-			Token = token,
-			RefreshToken = refreshToken.Token
-		};
-	}
+        var token = tokenProvider.CreateJwtToken(user);
+        var refreshToken = tokenProvider.CreateRefreshToken(user);
+
+        await refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+
+        var userLoggedInEvent = new UserLoggedIn(user.Id, token, refreshToken.Token);
+        await userRepository.AddUserEventAsync(userLoggedInEvent, cancellationToken);
+
+        return new LoginUserResponse
+        {
+            Token = token,
+            RefreshToken = refreshToken.Token
+        };
+    }
 }

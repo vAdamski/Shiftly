@@ -3,7 +3,7 @@ using Shiftly.Domain.Events.Common;
 
 namespace Shiftly.Domain.Events.User;
 
-public class UserPasswordChanged : Event
+public class UserPasswordChanged : UserEvent
 {
     public Guid UserId { get; set; }
     public string PasswordHash { get; set; } = string.Empty;

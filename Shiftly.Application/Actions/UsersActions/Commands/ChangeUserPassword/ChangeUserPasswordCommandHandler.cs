@@ -7,7 +7,9 @@ using Shiftly.Domain.Events.User;
 
 namespace Shiftly.Application.Actions.UsersActions.Commands.ChangeUserPassword;
 
-public class ChangeUserPasswordCommandHandler(IUserRepository userRepository, IPasswordHasher passwordHasher)
+public class ChangeUserPasswordCommandHandler(
+    IUserRepository userRepository, 
+    IPasswordHasher passwordHasher)
     : ICommandHandler<ChangeUserPasswordCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(ChangeUserPasswordCommand request, CancellationToken cancellationToken)
@@ -27,13 +29,14 @@ public class ChangeUserPasswordCommandHandler(IUserRepository userRepository, IP
         }
 
         var newPasswordHash = passwordHasher.Hash(request.NewPassword);
-        
-        UserPasswordChanged userPasswordChangedEvent = new(
-            user.Id,
-            newPasswordHash
-        );
-        
-        await userRepository.AppendEventAsync(userPasswordChangedEvent, cancellationToken);
+
+        var userPasswordChangedEvent = new UserPasswordChanged
+        {
+            UserId = user.Id,
+            PasswordHash = newPasswordHash
+        };
+
+        await userRepository.AddUserEventAsync(userPasswordChangedEvent, cancellationToken);
 
         return user.Id;
     }

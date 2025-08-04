@@ -1,18 +1,23 @@
-﻿using Shiftly.Application.Common.Interfaces.Application.Providers;
-using Shiftly.Application.Common.Interfaces.Application.Services.Emails;
-using Shiftly.Domain.Dtos;
+﻿using Shiftly.Application.Common.Interfaces.Application.Builders.Emails;
+using Shiftly.Application.Common.Interfaces.Application.Providers;
+using Shiftly.Domain.Common;
+using Shiftly.Domain.Dtos.Emails;
 
 namespace Shiftly.Application.Providers;
 
-public class EmailContextProvider(IActivationEmailService activationEmailService) : IEmailContextProvider
+public class EmailContextProvider(
+    IActivationEmailBuilder activationBuilder
+    // IPasswordResetEmailBuilder passwordResetBuilder
+    )
+    : IEmailContextProvider
 {
-    public string GetContext(EmailBase emailBase)
+    public EmailMessage BuildEmail(EmailBase emailBase)
     {
         return emailBase switch
         {
-            ActivationAccountEmailParametersDto activationEmail => 
-                activationEmailService.GenerateActivationEmailBody(activationEmail),
-            _ => throw new NotImplementedException($"No context provider for {emailBase.GetType().Name}")
+            ActivationAccountEmailParametersDto activation => activationBuilder.Build(activation),
+            // PasswordResetEmailParametersDto reset => passwordResetBuilder.Build(reset),
+            _ => throw new NotImplementedException($"No email builder for type: {emailBase.GetType().Name}")
         };
     }
 }

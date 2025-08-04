@@ -14,6 +14,15 @@ public static class DomainErrors
 		
 		public static Error InvalidPassword =>
 			new Error("InvalidPassword", $"Invalid password.");
+		
+		public static Error InvalidActivationToken =>
+			new Error("InvalidActivationCode", $"Invalid activation code.");
+		
+		public static Error UserAlreadyActivated =>
+			new Error("UserAlreadyActivated", $"User is already activated.");
+		
+		public static Error UserNotActivated =>
+			new Error("UserNotActivated", $"User is not activated.");
 	}
 	
 	public static class RefreshToken

@@ -1,0 +1,54 @@
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using Shiftly.Application.Common.Interfaces.Application.Providers;
+using Shiftly.Domain.Entities;
+
+namespace Shiftly.Application.Providers.RefreshToken;
+
+public class TokenProvider(IConfiguration configuration) : ITokenProvider
+{
+	public string CreateJwtToken(User user)
+	{
+		string secretKey = configuration["Jwt:Secret"]!;
+		var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+		
+		var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+		
+		var tokenDescriptor = new SecurityTokenDescriptor
+		{
+			Subject = new ClaimsIdentity(new[]
+			{
+				new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+				new Claim(JwtRegisteredClaimNames.Email, user.Email),
+			}),
+			Expires = DateTime.UtcNow.AddMinutes(configuration.GetValue<int>("Jwt:ExpirationInMinutes")),
+			SigningCredentials = credentials,
+			Issuer = configuration["Jwt:Issuer"],
+			Audience = configuration["Jwt:Audience"],
+		};
+		
+		var tokenHandler = new JsonWebTokenHandler();
+		
+		var token = tokenHandler.CreateToken(tokenDescriptor);
+		
+		return token;
+	}
+	
+	public RefreshTokenDto CreateRefreshToken(User user)
+	{
+		var expirationTimeInMinutes = configuration.GetValue<int>("Jwt:RefreshTokenExpirationInMinutes");
+		var expirationTime = DateTime.UtcNow.AddMinutes(expirationTimeInMinutes);
+		var refreshToken = GenerateRefreshToken();
+		
+		return new RefreshTokenDto(user.Id, refreshToken, expirationTime);
+	}
+	
+	private static string GenerateRefreshToken()
+	{
+		return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
+	}
+}

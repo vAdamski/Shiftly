@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Shiftly.Application.Actions.UsersActions.Commands.ActivateUser;
 using Shiftly.Application.Actions.UsersActions.Commands.ChangeUserPassword;
 using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
 using Shiftly.Application.Actions.UsersActions.Queries.GetCurrentUserInfo;
@@ -40,6 +41,15 @@ public class UsersController(ISender sender) : BaseApiController(sender)
 
         return result.IsSuccess ? Ok() : HandleFailure(result);
     }
+
+    [AllowAnonymous]
+    [HttpPost("activate")]
+    public async Task<IActionResult> Activate([FromQuery] ActivateUserCommand command)
+    {
+        var result = await Sender.Send(command);
+
+        return result.IsSuccess ? Ok() : HandleFailure(result);
+    }
 	
     [AllowAnonymous]
     [HttpPost("login")]
@@ -50,6 +60,7 @@ public class UsersController(ISender sender) : BaseApiController(sender)
         return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
     }
 	
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken([FromBody] LoginUserWithRefreshTokenQuery query)
     {

@@ -8,7 +8,7 @@ public static class QueueEventNameProvider
     {
         return @event switch
         {
-            UserRegistered => "email.sender.queue",
+            UserRegisteredConfirmationEmailModel => "email.sender.queue",
             _ => throw new ArgumentException($"No queue mapping defined for {@event.GetType().Name}")
         };
     }

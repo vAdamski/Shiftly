@@ -1,23 +1,26 @@
 ﻿services:
-  mysql:
-    image: mysql:latest
-    container_name: shiftlyDbMySql
+  postgres:
+    image: postgres
+    restart: always
+    container_name: shiftlyDbPostgres
     environment:
-      - MYSQL_ROOT_PASSWORD=Pass123$
-      - MYSQL_DATABASE=ShiftlyDatabase
-      - MYSQL_USER=admin
-      - MYSQL_PASSWORD=Pass123$
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=Pass123$
+      - POSTGRES_DB=ShiftlyDatabase
     ports:
-      - 3306:3306
+      - 5432:5432
     volumes:
-      - mysql_data:/var/lib/mysql
-        
+      - postgres_data:/var/lib/postgresql/data
+  
   rabbitmq:
     image: rabbitmq:4-management
     container_name: shiftlyRabbitMQ
     ports:
       - 5672:5672
       - 15672:15672
-  
+
 volumes:
   mysql_data:
+  postgres_data:
+    
+    

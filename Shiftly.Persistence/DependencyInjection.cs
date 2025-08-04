@@ -51,6 +51,7 @@ public static class DependencyInjection
             options.Events.StreamIdentity = StreamIdentity.AsGuid;
             
             options.Projections.Add<UserProjection>(ProjectionLifecycle.Inline);
+            options.Projections.Add<RefreshTokenProjection>(ProjectionLifecycle.Inline);
 
             if (IsRunningInDevelopment())
             {

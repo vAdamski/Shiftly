@@ -5,6 +5,7 @@ using Shiftly.Application.Common.Interfaces.Application.Services;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Domain.Common;
 using Shiftly.Domain.Errors;
+using Shiftly.Domain.Events.RefreshToken;
 using Shiftly.Domain.Events.User;
 
 namespace Shiftly.Application.Actions.UsersActions.Queries.LoginUser;
@@ -31,17 +32,22 @@ public class LoginUserQueryHandler(
             return Result.Failure<LoginUserResponse>(DomainErrors.User.UserNotActivated);
 
         var token = tokenProvider.CreateJwtToken(user);
-        var refreshToken = tokenProvider.CreateRefreshToken(user);
+        var refreshTokenDto = tokenProvider.CreateRefreshToken(user);
 
-        await refreshTokenRepository.AddAsync(refreshToken, cancellationToken);
+        var refreshTokenCreatedEvent = new RefreshTokenCreated(
+            refreshTokenDto.UserId,
+            refreshTokenDto.Token,
+            refreshTokenDto.ExpiresAtInUtc);
 
-        var userLoggedInEvent = new UserLoggedIn(user.Id, token, refreshToken.Token);
+        await refreshTokenRepository.AddAsync(refreshTokenCreatedEvent, cancellationToken);
+
+        var userLoggedInEvent = new UserLoggedIn(user.Id, token, refreshTokenDto.Token);
         await userRepository.AddUserEventAsync(userLoggedInEvent, cancellationToken);
 
         return new LoginUserResponse
         {
             Token = token,
-            RefreshToken = refreshToken.Token
+            RefreshToken = refreshTokenDto.Token
         };
     }
 }

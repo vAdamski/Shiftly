@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
@@ -6,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 using Shiftly.Application.Common.Interfaces.Application.Providers;
 using Shiftly.Domain.Entities;
 
-namespace Shiftly.Application.Providers;
+namespace Shiftly.Application.Providers.RefreshToken;
 
 public class TokenProvider(IConfiguration configuration) : ITokenProvider
 {
@@ -37,11 +38,17 @@ public class TokenProvider(IConfiguration configuration) : ITokenProvider
 		return token;
 	}
 	
-	public RefreshToken CreateRefreshToken(User user)
+	public RefreshTokenDto CreateRefreshToken(User user)
 	{
 		var expirationTimeInMinutes = configuration.GetValue<int>("Jwt:RefreshTokenExpirationInMinutes");
 		var expirationTime = DateTime.UtcNow.AddMinutes(expirationTimeInMinutes);
+		var refreshToken = GenerateRefreshToken();
 		
-		return RefreshToken.Create(user.Id, expirationTime);
+		return new RefreshTokenDto(user.Id, refreshToken, expirationTime);
+	}
+	
+	private static string GenerateRefreshToken()
+	{
+		return Convert.ToBase64String(RandomNumberGenerator.GetBytes(32));
 	}
 }

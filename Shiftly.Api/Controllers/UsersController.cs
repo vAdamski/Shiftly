@@ -60,6 +60,7 @@ public class UsersController(ISender sender) : BaseApiController(sender)
         return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
     }
 	
+    [AllowAnonymous]
     [HttpPost("refresh-token")]
     public async Task<IActionResult> RefreshToken([FromBody] LoginUserWithRefreshTokenQuery query)
     {

@@ -10,6 +10,7 @@ using Shiftly.Application.Common.Interfaces.Application.Handlers;
 using Shiftly.Application.Common.Interfaces.Application.Providers;
 using Shiftly.Application.Common.Interfaces.Application.Services;
 using Shiftly.Application.Providers;
+using Shiftly.Application.Providers.RefreshToken;
 using Shiftly.Application.Services;
 
 namespace Shiftly.Application;

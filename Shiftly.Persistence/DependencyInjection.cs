@@ -39,6 +39,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+        services.AddScoped<IOrganizationRepository, OrganizationRepository>();
     }
 
     private static void ConfigureMarten(IServiceCollection services, IConfiguration configuration)
@@ -54,6 +55,7 @@ public static class DependencyInjection
             
             options.Projections.Add<UserProjection>(ProjectionLifecycle.Inline);
             options.Projections.Add<RefreshTokenProjection>(ProjectionLifecycle.Inline);
+            options.Projections.Add<OrganizationProjection>(ProjectionLifecycle.Inline);
 
             if (IsRunningInDevelopment())
             {

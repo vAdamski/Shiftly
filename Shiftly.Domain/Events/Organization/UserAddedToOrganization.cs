@@ -1,0 +1,13 @@
+using Shiftly.Domain.Events.Common;
+
+namespace Shiftly.Domain.Events.Organization;
+
+public class UserAddedToOrganization(Guid organizationId, Guid userId) : Event
+{
+	public Guid OrganizationId { get; } = organizationId;
+	public Guid UserId { get; } = userId;
+
+	public override Guid StreamId => OrganizationId;
+}
+
+

@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{14DAE788-17C7-4578-B737-941EBC51C054}"
 	ProjectSection(SolutionItems) = preProject
 		compose.yaml = compose.yaml
+		.gitignore = .gitignore
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shiftly.Application", "Shiftly.Application\Shiftly.Application.csproj", "{3D6259BB-7C28-448B-89E8-A145D3EEC404}"

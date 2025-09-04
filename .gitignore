@@ -3,3 +3,7 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+/Shiftly.Api/logs
+/.idea/*
+Shiftly.sln.DotSettings.user
+/identifier.sqlite

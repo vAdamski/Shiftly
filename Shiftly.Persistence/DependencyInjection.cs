@@ -1,14 +1,16 @@
 
 using JasperFx;
 using JasperFx.Events;
+using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Rebus.Config;
 using Rebus.Routing.TypeBased;
-using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
+using Shiftly.Application.EventHandlers;
+using Shiftly.Domain.Events.User;
 using Shiftly.Domain.Projections;
 using Shiftly.Persistence.Repositories;
 
@@ -57,7 +59,9 @@ public static class DependencyInjection
             {
                 options.AutoCreateSchemaObjects = AutoCreate.All;
             }
-        });
+        })
+        .AddSubscriptionWithServices<UserCreatedEventHandler>(ServiceLifetime.Singleton)
+        .AddAsyncDaemon(DaemonMode.HotCold);
     }
 
     private static void ConfigureRebus(IServiceCollection services, IConfiguration configuration)

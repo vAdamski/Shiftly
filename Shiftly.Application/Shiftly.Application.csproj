@@ -25,4 +25,8 @@
       <Folder Include="Actions\" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Common\Interfaces\Application\EventHandlers\IDomainEventDispatcher.cs" />
+    </ItemGroup>
+
 </Project>

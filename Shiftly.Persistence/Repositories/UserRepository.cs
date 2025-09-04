@@ -1,13 +1,13 @@
 using Marten;
 using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
-using Shiftly.Domain.Common;
 using Shiftly.Domain.Entities;
-using Shiftly.Domain.Events.Common;
 using Shiftly.Domain.Events.User;
 
 namespace Shiftly.Persistence.Repositories;
 
-public class UserRepository(IQuerySession querySession, IDocumentStore documentStore) : IUserRepository
+public class UserRepository(
+    IQuerySession querySession, 
+    IDocumentStore documentStore) : IUserRepository
 {
     public async Task<bool> IsExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {

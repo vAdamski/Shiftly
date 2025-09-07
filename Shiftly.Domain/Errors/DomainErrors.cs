@@ -33,4 +33,13 @@ public static class DomainErrors
 		public static Error ExpiredRefreshToken =>
 			new Error("ExpiredRefreshToken", $"Expired refresh token.");
 	}
+
+	public static class Organization
+	{
+		public static Error OrganizationNotFound =>
+			new Error("OrganizationNotFound", "Organization not found.");
+
+		public static Error OnlyOwnerCanManageMembers =>
+			new Error("OnlyOwnerCanManageMembers", "Only the organization owner can manage members.");
+	}
 }

@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Shiftly.Application.Actions.OrganizationsActions.Commands.CreateOrganization;
 using Shiftly.Application.Actions.OrganizationsActions.Commands.AddUserToOrganization;
+using Shiftly.Application.Actions.OrganizationsActions.Commands.RemoveUserFromOrganization;
 
 namespace Shiftly.Api.Controllers;
 
@@ -23,5 +24,17 @@ public class OrganizationsController(ISender sender) : BaseApiController(sender)
         var result = await Sender.Send(command);
 
         return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
+    }
+
+    [HttpDelete("{organizationId}/members/{userId}")]
+    public async Task<IActionResult> RemoveMember([FromRoute] Guid organizationId, [FromRoute] Guid userId)
+    {
+        var result = await Sender.Send(new RemoveUserFromOrganizationCommand
+        {
+            OrganizationId = organizationId,
+            UserId = userId
+        });
+
+        return result.IsSuccess ? NoContent() : HandleFailure(result);
     }
 }

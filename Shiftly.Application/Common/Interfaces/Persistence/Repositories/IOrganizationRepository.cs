@@ -9,6 +9,7 @@ public interface IOrganizationRepository
 	Task<Organization?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 	Task AddOrganizationEventAsync(OrganizationCreated @event, CancellationToken cancellationToken = default);
 	Task AddOrganizationEventAsync(UserAddedToOrganization @event, CancellationToken cancellationToken = default);
+	Task AddOrganizationEventAsync(UserRemovedFromOrganization @event, CancellationToken cancellationToken = default);
 }
 
 

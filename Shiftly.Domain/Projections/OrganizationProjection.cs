@@ -21,6 +21,11 @@ public class OrganizationProjection : SingleStreamProjection<Organization, Guid>
 			organization.MemberIds.Add(added.UserId);
 		}
 	}
+
+	public void Apply(UserRemovedFromOrganization removed, Organization organization)
+	{
+		organization.MemberIds.Remove(removed.UserId);
+	}
 }
 
 

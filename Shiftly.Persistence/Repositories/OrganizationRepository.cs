@@ -21,7 +21,7 @@ public class OrganizationRepository(IQuerySession querySession, IDocumentStore d
 			.SingleOrDefaultAsync(cancellationToken);
 	}
 
-	public async Task AddOrganizationEventAsync(OrganizationCreated @event, CancellationToken cancellationToken = default)
+	public async Task AddOrganizationEventAsync(OrganizationEvent @event, CancellationToken cancellationToken = default)
 	{
 		await using var session = documentStore.LightweightSession();
 
@@ -34,20 +34,6 @@ public class OrganizationRepository(IQuerySession querySession, IDocumentStore d
 			session.Events.Append(@event.StreamId, @event);
 		}
 
-		await session.SaveChangesAsync(cancellationToken);
-	}
-
-	public async Task AddOrganizationEventAsync(UserAddedToOrganization @event, CancellationToken cancellationToken = default)
-	{
-		await using var session = documentStore.LightweightSession();
-		session.Events.Append(@event.StreamId, @event);
-		await session.SaveChangesAsync(cancellationToken);
-	}
-
-	public async Task AddOrganizationEventAsync(UserRemovedFromOrganization @event, CancellationToken cancellationToken = default)
-	{
-		await using var session = documentStore.LightweightSession();
-		session.Events.Append(@event.StreamId, @event);
 		await session.SaveChangesAsync(cancellationToken);
 	}
 }

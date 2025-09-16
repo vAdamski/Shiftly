@@ -1,4 +1,4 @@
-using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
+using Shiftly.Application.Actions.AuthActions.Commands.RegisterAccount;
 using Shiftly.Domain.Dtos.Emails;
 
 namespace Shiftly.Application.Common.Interfaces.Application.Builders.Emails;

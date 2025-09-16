@@ -3,7 +3,7 @@ using JasperFx.Events.Daemon;
 using JasperFx.Events.Projections;
 using Marten;
 using Marten.Subscriptions;
-using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
+using Shiftly.Application.Actions.AuthActions.Commands.RegisterAccount;
 using Shiftly.Application.Common.Interfaces.Application.Handlers;
 using Shiftly.Domain.Events.User;
 

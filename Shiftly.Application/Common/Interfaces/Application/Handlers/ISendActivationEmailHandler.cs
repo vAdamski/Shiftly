@@ -1,4 +1,4 @@
-using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
+using Shiftly.Application.Actions.AuthActions.Commands.RegisterAccount;
 
 namespace Shiftly.Application.Common.Interfaces.Application.Handlers;
 

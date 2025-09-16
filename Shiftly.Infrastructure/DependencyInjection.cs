@@ -1,6 +1,6 @@
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
-using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
+using Shiftly.Application.Actions.AuthActions.Commands.RegisterAccount;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services;
 using Shiftly.Application.Common.Interfaces.Infrastructure.Services.EmailSender;
 using Shiftly.Infrastructure.Services;

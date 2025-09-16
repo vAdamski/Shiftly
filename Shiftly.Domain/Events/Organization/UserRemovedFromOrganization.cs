@@ -9,3 +9,4 @@ public class UserRemovedFromOrganization(Guid organizationId, Guid userId) : Org
 
 	public override Guid StreamId => OrganizationId;
 }
+

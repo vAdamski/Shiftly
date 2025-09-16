@@ -2,7 +2,7 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
-using Shiftly.Application.Actions.UsersActions.Commands.RegisterUser;
+using Shiftly.Application.Actions.AuthActions.Commands.RegisterAccount;
 using Shiftly.Application.Builders.Emails;
 using Shiftly.Application.Common.Behaviours;
 using Shiftly.Application.Common.Interfaces.Application.Builders.Emails;

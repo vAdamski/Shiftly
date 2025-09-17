@@ -35,13 +35,14 @@ public class LoginAccountQueryHandler(
         var refreshTokenDto = tokenProvider.CreateRefreshToken(user);
 
         var refreshTokenCreatedEvent = new RefreshTokenCreated(
-            refreshTokenDto.UserId,
-            refreshTokenDto.Token,
-            refreshTokenDto.ExpiresAtInUtc);
+            Id: Guid.CreateVersion7(),
+            UserId: refreshTokenDto.UserId,
+            Token: refreshTokenDto.Token,
+            ExpiresAtInUtc: refreshTokenDto.ExpiresAtInUtc);
 
         await refreshTokenRepository.AddAsync(refreshTokenCreatedEvent, cancellationToken);
 
-        var userLoggedInEvent = new UserLoggedIn(user.Id, token, refreshTokenDto.Token);
+        var userLoggedInEvent = new UserLoggedIn(user.Id, token, refreshTokenDto.Token, DateTime.UtcNow);
         await userRepository.AddUserEventAsync(userLoggedInEvent, cancellationToken);
 
         return new LoginAccountResponse

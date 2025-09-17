@@ -17,7 +17,7 @@ public class SendActivationEmailHandler(
     {
         var expiration = DateTime.UtcNow.AddHours(24);
 
-        var userActivationTokenGenerated = new UserActivationTokenGenerated(message.UserId, expiration);
+        var userActivationTokenGenerated = new UserActivationTokenGenerated(message.UserId, Guid.NewGuid(), expiration);
         await userRepository.AddUserEventAsync(userActivationTokenGenerated, cancellationToken);
 
         var emailMessage = emailContextProvider.BuildEmail(new ActivationAccountEmailParametersDto(

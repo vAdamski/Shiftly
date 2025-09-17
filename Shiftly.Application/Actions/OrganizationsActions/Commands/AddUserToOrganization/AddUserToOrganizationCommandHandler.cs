@@ -4,7 +4,6 @@ using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Application.Common.Interfaces.Application.Services;
 using Shiftly.Application.Helpers;
 using Shiftly.Domain.Common;
-using Shiftly.Domain.Entities;
 using Shiftly.Domain.Errors;
 using Shiftly.Domain.Events.Organization;
 using Shiftly.Domain.Events.User;
@@ -39,18 +38,17 @@ public class AddUserToOrganizationCommandHandler(
 		var generatedPassword = StrongPasswordGenerator.Generate();
 		var passwordHash = passwordHasher.Hash(generatedPassword);
 
-		var userCreated = new UserCreated
-		{
-			FirstName = request.FirstName,
-			LastName = request.LastName,
-			Email = request.Email,
-			PasswordHash = passwordHash
-		};
+		var userCreated = new UserCreated(
+			Guid.NewGuid(),
+			request.FirstName,
+			request.LastName,
+			request.Email,
+			passwordHash);
 
 		await userRepository.AddUserEventAsync(userCreated, cancellationToken);
-		await organizationRepository.AddOrganizationEventAsync(new UserAddedToOrganization(request.OrganizationId, userCreated.UserId), cancellationToken);
+		await organizationRepository.AddOrganizationEventAsync(new UserAddedToOrganization(request.OrganizationId, userCreated.Id), cancellationToken);
 
-		return Result.Success(userCreated.UserId);
+		return Result.Success(userCreated.Id);
 	}
 }
 

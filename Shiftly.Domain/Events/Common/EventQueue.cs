@@ -1,6 +1,6 @@
 namespace Shiftly.Domain.Events.Common;
 
-public abstract class EventQueue
+public abstract record EventQueue
 {
     public abstract string Serialize();
 }

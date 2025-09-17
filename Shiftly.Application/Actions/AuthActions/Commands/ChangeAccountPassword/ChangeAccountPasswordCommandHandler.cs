@@ -30,11 +30,7 @@ public class ChangeAccountPasswordCommandHandler(
 
         var newPasswordHash = passwordHasher.Hash(request.NewPassword);
 
-        var userPasswordChangedEvent = new UserPasswordChanged
-        {
-            UserId = user.Id,
-            PasswordHash = newPasswordHash
-        };
+        var userPasswordChangedEvent = new UserPasswordChanged(user.Id, newPasswordHash);
 
         await userRepository.AddUserEventAsync(userPasswordChangedEvent, cancellationToken);
 

@@ -27,7 +27,7 @@ public class User
             throw new ArgumentNullException(nameof(userCreated), "UserCreated event cannot be null.");
         }
 
-        Id = userCreated.UserId;
+        Id = userCreated.Id;
         FirstName = userCreated.FirstName;
         LastName = userCreated.LastName;
         Email = userCreated.Email;

@@ -41,9 +41,10 @@ public class LoginAccountWithRefreshTokenQueryHandler(
 		
 		// Create new refresh token event
 		var refreshTokenCreated = new RefreshTokenCreated(
-			userId: user.Id,
-			refreshToken: newRefreshTokenDto.Token,
-			expiresAtInUtc: newRefreshTokenDto.ExpiresAtInUtc
+			Id: Guid.CreateVersion7(),
+			UserId: user.Id,
+			Token: newRefreshTokenDto.Token,
+			ExpiresAtInUtc: newRefreshTokenDto.ExpiresAtInUtc
 		);
 		
 		// Store the new refresh token in database

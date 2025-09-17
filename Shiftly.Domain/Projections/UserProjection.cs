@@ -13,7 +13,7 @@ public class UserProjection : SingleStreamProjection<User, Guid>
             throw new ArgumentNullException(nameof(userCreated), "UserCreated event cannot be null.");
         }
 
-        user.Id = userCreated.UserId;
+        user.Id = userCreated.Id;
         user.FirstName = userCreated.FirstName;
         user.LastName = userCreated.LastName;
         user.Email = userCreated.Email;

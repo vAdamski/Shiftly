@@ -2,11 +2,11 @@ using Shiftly.Domain.Events.Common;
 
 namespace Shiftly.Domain.Events.User;
 
-public class UserRegisteredConfirmationEmailModel : EventQueue
+public record UserRegisteredConfirmationEmailModel : EventQueue
 {
-    public Guid UserId { get; set; }
-    public string FirstName { get; set; } = string.Empty;
-    public string Email { get; set; } = string.Empty;
+    public Guid UserId { get; init; }
+    public string FirstName { get; init; } = string.Empty;
+    public string Email { get; init; } = string.Empty;
 
     public override string Serialize()
     {

@@ -21,16 +21,15 @@ public class RegisterAccountCommandHandler(
 
         var passwordHash = passwordHasher.Hash(request.Password);
 
-        var userCreated = new UserCreated
-        {
-            FirstName = request.FirstName,
-            LastName = request.LastName,
-            Email = request.Email,
-            PasswordHash = passwordHash
-        };
+        var userCreated = new UserCreated(
+            Guid.NewGuid(),
+            request.FirstName,
+            request.LastName,
+            request.Email,
+            passwordHash);
 
         await userRepository.AddUserEventAsync(userCreated, cancellationToken);
 
-        return userCreated.UserId;
+        return userCreated.Id;
     }
 }

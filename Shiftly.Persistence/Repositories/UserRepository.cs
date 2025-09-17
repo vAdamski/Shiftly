@@ -11,18 +11,12 @@ public class UserRepository(
 {
     public async Task<bool> IsExistsAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var user = await querySession.Query<User>().Where(x => x.Id == id)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        return user is not null;
+        return await querySession.Query<User>().Where(x => x.Id == id).AnyAsync(cancellationToken);
     }
 
     public async Task<bool> IsExistsAsync(string email, CancellationToken cancellationToken = default)
     {
-        var user = await querySession.Query<User>().Where(x => x.Email == email)
-            .SingleOrDefaultAsync(cancellationToken);
-
-        return user is not null;
+        return await querySession.Query<User>().Where(x => x.Email == email).AnyAsync(cancellationToken);
     }
 
     public Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)

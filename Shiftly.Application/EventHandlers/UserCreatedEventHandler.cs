@@ -42,7 +42,7 @@ public class UserCreatedEventHandler : SubscriptionBase
     {
         var sendActivationEmail = new SendActivationEmail
         {
-            UserId = @event.UserId,
+            UserId = @event.Id,
             Email = @event.Email,
             FirstName = @event.FirstName
         };

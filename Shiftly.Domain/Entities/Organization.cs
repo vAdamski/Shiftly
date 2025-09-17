@@ -7,5 +7,3 @@ public class Organization
 	public Guid OwnerId { get; set; }
 	public List<Guid> MemberIds { get; set; } = new();
 }
-
-

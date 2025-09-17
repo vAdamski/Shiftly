@@ -13,34 +13,4 @@ public class User
     public bool IsActive { get; set; } = false;
     public string? ActivationToken { get; set; }
     public DateTime? ActivationTokenExpiration { get; set; }
-
-
-    public User()
-    {
-
-    }
-
-    public void Apply(UserCreated userCreated)
-    {
-        if (userCreated == null)
-        {
-            throw new ArgumentNullException(nameof(userCreated), "UserCreated event cannot be null.");
-        }
-
-        Id = userCreated.Id;
-        FirstName = userCreated.FirstName;
-        LastName = userCreated.LastName;
-        Email = userCreated.Email;
-        PasswordHash = userCreated.PasswordHash;
-    }
-
-    public void Apply(UserPasswordChanged userPasswordChanged)
-    {
-        if (userPasswordChanged == null)
-        {
-            throw new ArgumentNullException(nameof(userPasswordChanged), "UserPasswordChanged event cannot be null.");
-        }
-
-        PasswordHash = userPasswordChanged.PasswordHash;
-    }
 }

@@ -12,6 +12,7 @@ using Shiftly.Application.Common.Interfaces.Persistence.Repositories;
 using Shiftly.Application.EventHandlers;
 using Shiftly.Domain.Events.User;
 using Shiftly.Domain.Projections;
+using Shiftly.Domain.Projections.OrganizationMembers;
 using Shiftly.Persistence.Repositories;
 
 namespace Shiftly.Persistence;
@@ -56,6 +57,7 @@ public static class DependencyInjection
             options.Projections.Add<UserProjection>(ProjectionLifecycle.Inline);
             options.Projections.Add<RefreshTokenProjection>(ProjectionLifecycle.Inline);
             options.Projections.Add<OrganizationProjection>(ProjectionLifecycle.Inline);
+            options.Projections.Add<OrganizationMembersProjection>(ProjectionLifecycle.Inline);
 
             if (IsRunningInDevelopment())
             {

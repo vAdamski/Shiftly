@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Shiftly.Application.Actions.OrganizationsActions.Commands.CreateOrganization;
 using Shiftly.Application.Actions.OrganizationsActions.Commands.AddUserToOrganization;
 using Shiftly.Application.Actions.OrganizationsActions.Commands.RemoveUserFromOrganization;
+using Shiftly.Application.Actions.OrganizationsActions.Queries.GetOrganizationMembers;
 
 namespace Shiftly.Api.Controllers;
 
@@ -13,6 +14,14 @@ public class OrganizationsController(ISender sender) : BaseApiController(sender)
     public async Task<IActionResult> Create([FromBody] CreateOrganizationCommand command)
     {
         var result = await Sender.Send(command);
+
+        return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
+    }
+
+    [HttpGet("{organizationId}/members")]
+    public async Task<IActionResult> GetMembers([FromRoute] Guid organizationId)
+    {
+        var result = await Sender.Send(new GetOrganizationMembersQuery { OrganizationId = organizationId });
 
         return result.IsSuccess ? Ok(result.Value) : HandleFailure(result);
     }
